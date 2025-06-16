@@ -1,7 +1,7 @@
 {
-  "coinbase_api_key": "YOUR_API_KEY_HERE",
-  "coinbase_api_secret": "YOUR_API_SECRET_HERE",
-  "coinbase_api_passphrase": "YOUR_API_PASSPHRASE_HERE",
+  "coinbase_api_key": "organizations/b3050d76-baeb-4114-a005-ad4eb05cf540/apiKeys/84b3b9fa-bd05-4f8f-aa8a-c6d13d409857",
+  "coinbase_api_secret": "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIAkVNBkZo+81tq4isD0QAXrUV6ojfYJwbKpET2PUBq5koAoGCCqGSM49\nAwEHoUQDQgAEbypWwjfqkbOA4fscavPzxmDvr8ii2L5QaG6M8XuBqiwaD/sYyxnl\nJdHLHrP6znvC7G9ZD4v/MElctoM1gCMXSg==\n-----END EC PRIVATE KEY-----\n",
+  "coinbase_api_passphrase": "Penelope9151!",
   "trade_mode": "paper",
   "max_trade_percentage": 25,
   "indicators": {
