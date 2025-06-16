@@ -1,0 +1,38 @@
+{
+  "coinbase_api_key": "YOUR_API_KEY_HERE",
+  "coinbase_api_secret": "YOUR_API_SECRET_HERE",
+  "coinbase_api_passphrase": "YOUR_API_PASSPHRASE_HERE",
+  "trade_mode": "paper",
+  "max_trade_percentage": 25,
+  "indicators": {
+    "RSI": {
+      "enabled": true,
+      "period": 14,
+      "oversold": 30,
+      "overbought": 70
+    },
+    "BollingerBands": {
+      "enabled": true,
+      "period": 20,
+      "stdDev": 2
+    },
+    "ElliottWaves": {
+      "enabled": true
+    },
+    "MACD": {
+      "enabled": true,
+      "fast_period": 12,
+      "slow_period": 26,
+      "signal_period": 9
+    }
+  },
+  "risk_management": {
+    "stop_loss_percentage": 3,
+    "take_profit_percentage": 5,
+    "max_daily_loss": 10
+  },
+  "reporting": {
+    "email": "jraby07@gmail.com",
+    "sms": false
+  }
+}
