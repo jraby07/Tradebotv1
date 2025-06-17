@@ -1,38 +1,75 @@
 {
-  "coinbase_api_key": "organizations/b3050d76-baeb-4114-a005-ad4eb05cf540/apiKeys/84b3b9fa-bd05-4f8f-aa8a-c6d13d409857",
-  "coinbase_api_secret": "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIAkVNBkZo+81tq4isD0QAXrUV6ojfYJwbKpET2PUBq5koAoGCCqGSM49\nAwEHoUQDQgAEbypWwjfqkbOA4fscavPzxmDvr8ii2L5QaG6M8XuBqiwaD/sYyxnl\nJdHLHrP6znvC7G9ZD4v/MElctoM1gCMXSg==\n-----END EC PRIVATE KEY-----\n",
+
+  "coinbase_api_key": "b3050d76-baeb-4114-a005-ad4eb05cf540/apiKeys/84b3b9fa-bd05-4f8f-aa8a-c6d13d409857",
+
+  "coinbase_api_secret": "nMHcCAQEEIEN5hHLl07mLpqUvu/hrSEuaP3U+ ",
+
   "coinbase_api_passphrase": "Penelope9151!",
+
   "trade_mode": "paper",
+
   "max_trade_percentage": 25,
+
   "indicators": {
+
     "RSI": {
+
       "enabled": true,
+
       "period": 14,
+
       "oversold": 30,
+
       "overbought": 70
+
     },
+
     "BollingerBands": {
+
       "enabled": true,
+
       "period": 20,
+
       "stdDev": 2
+
     },
+
     "ElliottWaves": {
+
       "enabled": true
+
     },
+
     "MACD": {
+
       "enabled": true,
+
       "fast_period": 12,
+
       "slow_period": 26,
+
       "signal_period": 9
+
     }
+
   },
+
   "risk_management": {
+
     "stop_loss_percentage": 3,
+
     "take_profit_percentage": 5,
+
     "max_daily_loss": 10
+
   },
+
   "reporting": {
+
     "email": "jraby07@gmail.com",
+
     "sms": false
+
   }
+
 }
