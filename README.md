@@ -30,3 +30,15 @@ This codebase is **not** production ready and should be used with
 caution. Review the source and extend the trading logic and risk
 management before trading with real money.
 
+### Configuration highlights
+
+- `aggressiveness` from 1-10 controls how large each trade is as a
+  percentage of your balance. The default is 5.
+- `starting_balance` sets the simulated initial capital.
+- `market_type` may be `spot` or `futures` and determines which market
+  the bot trades on via ccxt.
+
+The strategy is very simple and does **not** guarantee profits. Use at
+your own risk and consider consulting a financial professional before
+trading with real funds.
+

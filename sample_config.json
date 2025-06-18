@@ -27,6 +27,9 @@
     "stop_loss_percentage": 3,
     "take_profit_percentage": 5,
     "max_daily_loss": 10
-  }
+  },
+  "aggressiveness": 5,
+  "starting_balance": 10000,
+  "market_type": "spot"
 }
 
