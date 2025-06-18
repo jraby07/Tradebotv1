@@ -2,3 +2,7 @@ ccxt
 pandas
 requests
 ta
+rich
+schedule
+flask
+

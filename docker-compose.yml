@@ -5,5 +5,11 @@ services:
     restart: always
     volumes:
       - ./:/usr/src/app
+    ports:
+      - "8000:8000"
     environment:
       - CONFIG_PATH=/usr/src/app/config.json
+      - COINBASE_API_KEY=${COINBASE_API_KEY}
+      - COINBASE_API_SECRET=${COINBASE_API_SECRET}
+      - COINBASE_API_PASSPHRASE=${COINBASE_API_PASSPHRASE}
+
