@@ -1,9 +1,11 @@
 import json
+import os
 import time
 
 def main():
     print("MoneyMaker5000 bot starting up...")
-    with open("config.json") as f:
+    config_path = os.getenv("CONFIG_PATH", "config.json")
+    with open(config_path) as f:
         config = json.load(f)
     print("Config loaded. Running in", config["trade_mode"], "mode.")
 
