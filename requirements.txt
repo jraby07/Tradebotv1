@@ -2,3 +2,5 @@ ccxt
 pandas
 requests
 ta
+rich
+
