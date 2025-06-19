@@ -39,6 +39,8 @@ class TradeBot:
         self.trades: List[Trade] = []
         self.aggressiveness = int(self.config.get('aggressiveness', 5))
         self.balance = float(self.config.get('starting_balance', 10000))
+        self.running = False
+
 
     def fetch_news_sentiment(self) -> float:
         """Placeholder for news sentiment analysis."""
@@ -149,6 +151,36 @@ class TradeBot:
     def run(self):
         symbol = 'BTC/USD'
         while True:
+    def stop(self):
+        """Stop the bot loop."""
+        self.running = False
+
+    def get_status(self) -> dict:
+        """Return current balance and trades for API usage."""
+        trades = [
+            {
+                'action': t.action,
+                'price': t.price,
+                'amount': t.amount,
+                'reason': t.reason,
+                'pnl': t.pnl,
+                'open': t.open,
+                'stop_loss': t.stop_loss,
+                'take_profit': t.take_profit,
+            }
+            for t in self.trades
+        ]
+        return {
+            'balance': self.balance,
+            'aggressiveness': self.aggressiveness,
+            'trades': trades,
+            'running': self.running,
+        }
+
+    def run(self):
+        self.running = True
+        symbol = 'BTC/USD'
+        while self.running:
             df = self.fetch_ohlc(symbol)
             df = self.apply_indicators(df)
             signal, reason = self.generate_signal(df)

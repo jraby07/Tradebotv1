@@ -1,0 +1,7 @@
+{
+    "name": "TradeBot UI",
+    "short_name": "TradeBot",
+    "display": "standalone",
+    "start_url": "/",
+    "icons": []
+}
