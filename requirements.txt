@@ -2,3 +2,6 @@ ccxt
 pandas
 requests
 ta
+rich
+flask
+
