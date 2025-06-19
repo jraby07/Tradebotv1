@@ -25,6 +25,7 @@ python bot.py --mode simulate   # dry run
 python bot.py --mode live       # trade with real funds
 ```
 
+
 ### Web Interface
 
 You can control the bot through a small web UI that also works as a
@@ -36,6 +37,7 @@ python webapp.py
 
 Open `http://localhost:5000` in your browser to start or stop the bot
 and view its status.
+
 
 The console output shows open positions and profit/loss for each trade.
 This codebase is **not** production ready and should be used with

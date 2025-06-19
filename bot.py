@@ -41,6 +41,7 @@ class TradeBot:
         self.balance = float(self.config.get('starting_balance', 10000))
         self.running = False
 
+
     def fetch_news_sentiment(self) -> float:
         """Placeholder for news sentiment analysis."""
         # In a production bot, fetch and analyze recent crypto news here.
@@ -147,6 +148,9 @@ class TradeBot:
         bar = "█" * self.aggressiveness + " " * (10 - self.aggressiveness)
         console.print(f"Balance: {self.balance:.2f} | Aggressiveness: {self.aggressiveness}/10 [{bar}]")
 
+    def run(self):
+        symbol = 'BTC/USD'
+        while True:
     def stop(self):
         """Stop the bot loop."""
         self.running = False
