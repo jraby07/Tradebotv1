@@ -151,6 +151,7 @@ class TradeBot:
     def run(self):
         symbol = 'BTC/USD'
         while True:
+            pass
     def stop(self):
         """Stop the bot loop."""
         self.running = False
