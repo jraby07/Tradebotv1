@@ -31,7 +31,7 @@ class TradeBot:
     def __init__(self, config: dict, simulate: bool = True):
         self.config = config
         self.simulate = simulate
-        self.exchange = ccxt.coinbasepro({
+        self.exchange = ccxt.coinbase({
             'apiKey': os.environ.get('COINBASE_API_KEY'),
             'secret': os.environ.get('COINBASE_API_SECRET'),
             'password': os.environ.get('COINBASE_API_PASSPHRASE')
