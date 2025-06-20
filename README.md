@@ -25,10 +25,30 @@ python bot.py --mode simulate   # dry run
 python bot.py --mode live       # trade with real funds
 ```
 
+### Web Interface
+
+A small web UI is provided to start/stop the bot and monitor its status.
+It can be installed as a Progressive Web App (PWA) from your browser.
+
+```bash
+python webapp.py
+```
+
+Open `http://localhost:5000` to access the control panel. Choose the
+mode, specify the config file and view the trade history directly in the
+browser. The interface refreshes automatically every few seconds and can
+be installed on mobile or desktop for quick access offline.
+
 The console output shows open positions and profit/loss for each trade.
 This codebase is **not** production ready and should be used with
 caution. Review the source and extend the trading logic and risk
-management before trading with real money.
+management before trading with real money. A basic Dockerfile is
+included so you can build and run the project in an isolated container:
+
+```bash
+docker build -t tradebot .
+docker run -p 5000:5000 tradebot
+```
 
 ### Configuration highlights
 
@@ -41,4 +61,3 @@ management before trading with real money.
 The strategy is very simple and does **not** guarantee profits. Use at
 your own risk and consider consulting a financial professional before
 trading with real funds.
-

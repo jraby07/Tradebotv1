@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradeBot UI</title>
+    <link rel="manifest" href="/manifest.json">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4">
+<div class="container">
+    <h1 class="mb-3">TradeBot Control Panel</h1>
+    <form id="configForm" class="row g-2 align-items-end mb-3">
+        <div class="col-auto">
+            <select id="mode" class="form-select">
+                <option value="simulate">Simulation</option>
+                <option value="live">Live</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <input id="configPath" class="form-control" type="text" value="config.json" placeholder="Config path">
+        </div>
+        <div class="col-auto">
+            <button id="startBtn" type="button" class="btn btn-success me-2">Start</button>
+            <button id="stopBtn" type="button" class="btn btn-danger">Stop</button>
+        </div>
+    </form>
+    <div id="status" class="mb-3"></div>
+    <table id="tradesTable" class="table table-striped">
+        <thead>
+            <tr><th>Action</th><th>Price</th><th>Amount</th><th>Reason</th><th>PnL</th></tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<script src="/main.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js');
+}
+</script>
+</body>
+</html>
