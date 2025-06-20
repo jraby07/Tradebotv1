@@ -3,3 +3,7 @@ __pycache__/
 .env
 config.json
 
+venv/
+freqtrade/
+freqtrade/
+freqtrade/
