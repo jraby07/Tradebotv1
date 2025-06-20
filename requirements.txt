@@ -3,6 +3,5 @@ pandas
 requests
 ta
 rich
-Flask
-
+flask
 

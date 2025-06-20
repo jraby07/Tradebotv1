@@ -1,9 +1,10 @@
 # Tradebotv1
 
-Tradebotv1 is a small experimental cryptocurrency trading bot. The
-project now includes a basic framework for executing a strategy using
-technical indicators such as RSI, MACD and Bollinger Bands. The bot can
-run in either **simulation** mode or **live** mode against Coinbase Pro.
+Tradebotv1 is an experimental cryptocurrency trading bot that can run in
+**simulation** or **live** mode. It fetches data from Coinbase or
+Binance, applies simple indicators (RSI, MACD and Bollinger Bands) and
+executes trades. A small web interface can start the bot in either mode
+and display recent trades.
 
 ## Setup
 
@@ -11,12 +12,17 @@ run in either **simulation** mode or **live** mode against Coinbase Pro.
    ```bash
    pip install -r requirements.txt
    ```
-2. Copy `sample_config.json` to `config.json` and adjust the settings
-   as needed.
-3. Set the Coinbase API credentials as environment variables:
-   - `COINBASE_API_KEY`
-   - `COINBASE_API_SECRET`
-   - `COINBASE_API_PASSPHRASE`
+2. Copy `sample_config.json` to `config.json` and adjust the settings as
+   needed. Set `exchange` to either `coinbase` or `binance`.
+3. Export your exchange credentials as environment variables.
+   - For Coinbase Advanced Trade:
+     - `COINBASE_ADVANCED_API_KEY`
+     - `COINBASE_ADVANCED_API_SECRET`
+     - `COINBASE_ADVANCED_API_PASSPHRASE`
+   - For Binance:
+     - `BINANCE_API_KEY`
+     - `BINANCE_API_SECRET`
+4. Run `python webapp.py` to launch the browser interface.
 
 ## Running
 
@@ -25,34 +31,19 @@ python bot.py --mode simulate   # dry run
 python bot.py --mode live       # trade with real funds
 ```
 
-
-### Web Interface
-
-You can control the bot through a small web UI that also works as a
-Progressive Web App (PWA).
+To control the bot through a browser, run:
 
 ```bash
 python webapp.py
 ```
 
-Open `http://localhost:5000` in your browser to start or stop the bot
-and view its status.
-
+Open `http://localhost:8000` to start or stop the bot and switch
+between simulation and live modes. The page refreshes automatically to
+show the most recent indicator values, success rate and color-coded
+trade history.
 
 The console output shows open positions and profit/loss for each trade.
 This codebase is **not** production ready and should be used with
 caution. Review the source and extend the trading logic and risk
 management before trading with real money.
-
-### Configuration highlights
-
-- `aggressiveness` from 1-10 controls how large each trade is as a
-  percentage of your balance. The default is 5.
-- `starting_balance` sets the simulated initial capital.
-- `market_type` may be `spot` or `futures` and determines which market
-  the bot trades on via ccxt.
-
-The strategy is very simple and does **not** guarantee profits. Use at
-your own risk and consider consulting a financial professional before
-trading with real funds.
 

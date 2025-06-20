@@ -5,6 +5,10 @@ self.addEventListener('install', (event) => {
             '/index.html',
             '/main.js',
             '/manifest.json',
+<<<<<<< HEAD
+=======
+            '/service-worker.js',
+>>>>>>> pr8
         ]))
     );
 });

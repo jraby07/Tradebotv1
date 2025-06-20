@@ -23,35 +23,30 @@ class Trade:
     amount: float
     reason: str
     pnl: float = 0.0
-    open: bool = True
-    stop_loss: float = 0.0
-    take_profit: float = 0.0
 
 class TradeBot:
     def __init__(self, config: dict, simulate: bool = True):
         self.config = config
         self.simulate = simulate
-        self.exchange = ccxt.coinbase({
-            'apiKey': os.environ.get('COINBASE_API_KEY'),
-            'secret': os.environ.get('COINBASE_API_SECRET'),
-            'password': os.environ.get('COINBASE_API_PASSPHRASE')
-        })
+        exchange_name = config.get('exchange', 'coinbase').lower()
+        if exchange_name == 'coinbase':
+            api_key = os.environ.get('COINBASE_ADVANCED_API_KEY') or os.environ.get('COINBASE_API_KEY')
+            api_secret = os.environ.get('COINBASE_ADVANCED_API_SECRET') or os.environ.get('COINBASE_API_SECRET')
+            passphrase = os.environ.get('COINBASE_ADVANCED_API_PASSPHRASE') or os.environ.get('COINBASE_API_PASSPHRASE')
+            self.exchange = ccxt.coinbase({
+                'apiKey': api_key,
+                'secret': api_secret,
+                'password': passphrase
+            })
+        elif exchange_name == 'binance':
+            self.exchange = ccxt.binance({
+                'apiKey': os.environ.get('BINANCE_API_KEY'),
+                'secret': os.environ.get('BINANCE_API_SECRET')
+            })
+        else:
+            raise ValueError(f"Unsupported exchange: {exchange_name}")
         self.trades: List[Trade] = []
-        self.aggressiveness = int(self.config.get('aggressiveness', 5))
-        self.balance = float(self.config.get('starting_balance', 10000))
-        self.running = False
-
-
-    def fetch_news_sentiment(self) -> float:
-        """Placeholder for news sentiment analysis."""
-        # In a production bot, fetch and analyze recent crypto news here.
-        return 0.0
-
-    def calculate_trade_amount(self, price: float) -> float:
-        max_pct = self.config['max_trade_percentage'] / 100
-        pct = max_pct * (self.aggressiveness / 10)
-        usd = self.balance * pct
-        return usd / price
+        self.last_row = None
 
     def fetch_ohlc(self, symbol: str, timeframe: str = '1h', limit: int = 200) -> pd.DataFrame:
         """Fetch historical candlestick data."""
@@ -82,11 +77,6 @@ class TradeBot:
         last = df.iloc[-1]
         reasons = []
         signal = None
-        sentiment = self.fetch_news_sentiment()
-        if sentiment < -0.5:
-            return None, 'negative news sentiment'
-        if sentiment > 0.5:
-            reasons.append('positive news sentiment')
         if last['rsi'] < self.config['indicators']['RSI']['oversold'] and last['close'] <= last['bb_low']:
             signal = 'buy'
             reasons.append('RSI oversold and price near lower Bollinger band')
@@ -103,15 +93,7 @@ class TradeBot:
                 self.exchange.create_market_buy_order('BTC/USD', amount)
             else:
                 self.exchange.create_market_sell_order('BTC/USD', amount)
-        sl_pct = self.config['risk_management']['stop_loss_percentage'] / 100
-        tp_pct = self.config['risk_management']['take_profit_percentage'] / 100
-        if action == 'buy':
-            stop = price * (1 - sl_pct)
-            take = price * (1 + tp_pct)
-        else:
-            stop = price * (1 + sl_pct)
-            take = price * (1 - tp_pct)
-        self.trades.append(Trade(action, price, amount, reason, 0.0, True, stop, take))
+        self.trades.append(Trade(action, price, amount, reason))
 
     def update_pnl(self, current_price: float):
         for trade in self.trades:
@@ -120,20 +102,11 @@ class TradeBot:
             else:
                 trade.pnl = (trade.price - current_price) * trade.amount
 
-    def manage_trades(self, current_price: float):
-        for trade in self.trades:
-            if not trade.open:
-                continue
-            if trade.action == 'buy':
-                if current_price <= trade.stop_loss or current_price >= trade.take_profit:
-                    trade.pnl = (current_price - trade.price) * trade.amount
-                    self.balance += trade.price * trade.amount + trade.pnl
-                    trade.open = False
-            else:
-                if current_price >= trade.stop_loss or current_price <= trade.take_profit:
-                    trade.pnl = (trade.price - current_price) * trade.amount
-                    self.balance += trade.price * trade.amount + trade.pnl
-                    trade.open = False
+    def success_rate(self) -> float:
+        if not self.trades:
+            return 0.0
+        wins = sum(1 for t in self.trades if t.pnl >= 0)
+        return wins / len(self.trades) * 100
 
     def print_status(self):
         table = Table(title="Trade History")
@@ -145,52 +118,19 @@ class TradeBot:
         for t in self.trades:
             table.add_row(t.action, f"{t.price:.2f}", f"{t.amount:.4f}", t.reason, f"{t.pnl:.2f}")
         console.print(table)
-        bar = "█" * self.aggressiveness + " " * (10 - self.aggressiveness)
-        console.print(f"Balance: {self.balance:.2f} | Aggressiveness: {self.aggressiveness}/10 [{bar}]")
 
     def run(self):
         symbol = 'BTC/USD'
         while True:
-            pass
-    def stop(self):
-        """Stop the bot loop."""
-        self.running = False
-
-    def get_status(self) -> dict:
-        """Return current balance and trades for API usage."""
-        trades = [
-            {
-                'action': t.action,
-                'price': t.price,
-                'amount': t.amount,
-                'reason': t.reason,
-                'pnl': t.pnl,
-                'open': t.open,
-                'stop_loss': t.stop_loss,
-                'take_profit': t.take_profit,
-            }
-            for t in self.trades
-        ]
-        return {
-            'balance': self.balance,
-            'aggressiveness': self.aggressiveness,
-            'trades': trades,
-            'running': self.running,
-        }
-
-    def run(self):
-        self.running = True
-        symbol = 'BTC/USD'
-        while self.running:
             df = self.fetch_ohlc(symbol)
             df = self.apply_indicators(df)
             signal, reason = self.generate_signal(df)
             last_price = df.iloc[-1]['close']
+            self.last_row = df.iloc[-1].to_dict()
             if signal:
-                amount = self.calculate_trade_amount(last_price)
+                amount = 0.001  # placeholder amount
                 self.execute_trade(signal, amount, last_price, reason)
             self.update_pnl(last_price)
-            self.manage_trades(last_price)
             self.print_status()
             time.sleep(60)
 

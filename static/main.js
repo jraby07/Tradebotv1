@@ -4,11 +4,26 @@ async function startBot() {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({mode: 'simulate'})
     });
+<<<<<<< HEAD
+=======
+    if (!res.ok) {
+        alert('Failed to start bot');
+        return;
+    }
+>>>>>>> pr8
     updateStatus();
 }
 
 async function stopBot() {
+<<<<<<< HEAD
     await fetch('/api/stop', {method: 'POST'});
+=======
+    const res = await fetch('/api/stop', {method: 'POST'});
+    if (!res.ok) {
+        alert('Failed to stop bot');
+        return;
+    }
+>>>>>>> pr8
     updateStatus();
 }
 
